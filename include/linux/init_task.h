@@ -143,6 +143,14 @@ extern struct task_group root_task_group;
 
 #define INIT_TASK_COMM "swapper"
 
+#if defined(CONFIG_CCSECURITY) && !defined(CONFIG_CCSECURITY_USE_EXTERNAL_TASK_SECURITY)
+#define INIT_CCSECURITY          \
+	.ccs_domain_info = NULL, \
+	.ccs_flags = 0,
+#else
+#define INIT_CCSECURITY
+#endif
+
 /*
  *  INIT_TASK is used to set up the first task table, touch at
  * your own risk!. Base=0, limit=0x1fffff (=2MB)
@@ -210,6 +218,7 @@ extern struct task_group root_task_group;
 	INIT_TRACE_RECURSION						\
 	INIT_TASK_RCU_PREEMPT(tsk)					\
 	INIT_CPUSET_SEQ							\
+	INIT_CCSECURITY                                                 \
 }
 
 
